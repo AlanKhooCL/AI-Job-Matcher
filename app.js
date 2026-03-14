@@ -89,7 +89,7 @@ analyzeBtn.addEventListener('click', async () => {
     try {
         // ⚠️ IMPORTANT: Replace YOUR_RENDER_URL with your actual Render URL!
         // Example: 'https://job-matcher-api-xxxx.onrender.com/api/analyze-resume'
-        const response = await fetch('https://YOUR_RENDER_URL/api/analyze-resume', {
+        const response = await fetch('https://job-matcher-api-ud1m.onrender.com/api/analyze-resume', {
             method: 'POST',
             body: formData
         });
