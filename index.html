@@ -26,6 +26,8 @@
 
       <button type="submit" id="submitBtn">Evaluate Matches</button>
       <button id="analyze-btn" type="button">📊 Analyze Resume</button>
+      <button id="enhance-btn" type="button">✨ Enhance Resume</button>
+      
     </form>
     <div id="loading" class="hidden">
       <p>Scraping jobs and consulting Gemini... This might take a minute.</p>
@@ -49,6 +51,11 @@
               <canvas id="skillsRadarChart"></canvas>
           </div>
       </div>
+    </div>
+    <div id="enhanced-container" style="display: none; margin-top: 30px; padding: 20px; border: 1px solid #4CAF50; border-radius: 8px; background-color: #f9fff9;">
+      <h2 style="border-bottom: 2px solid #4CAF50; padding-bottom: 10px; color: #2e7d32;">✨ AI Enhanced Experience</h2>
+      <p style="font-size: 0.9em; color: #555;">Copy and paste these improved bullet points into your actual resume!</p>
+      <div id="enhanced-content"></div>
     </div>
   </div> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
