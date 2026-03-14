@@ -27,7 +27,7 @@ document.getElementById('jobForm').addEventListener('submit', async (e) => {
   try {
     // 3. Send to your Node.js backend 
     // IMPORTANT: You will replace this with your actual Render/Railway URL later
-    const response = await fetch('https://YOUR-BACKEND-URL.com/api/evaluate-jobs', {
+    const response = await fetch('https://job-matcher-api-ud1m.onrender.com/api/evaluate-jobs', {
       method: 'POST',
       body: formData,
       // Note: Do NOT set 'Content-Type' manually when sending FormData. The browser handles the boundaries automatically.
