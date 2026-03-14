@@ -120,7 +120,7 @@ analyzeBtn.addEventListener('click', async () => {
     }
 });
 
-// Function to draw the Chart.js Radar Chart
+// Function to draw the Chart.js Radar Chart (Japandi Dark Mode)
 function drawChart(skillScores) {
     const ctx = document.getElementById('skillsRadarChart').getContext('2d');
     
@@ -129,29 +129,61 @@ function drawChart(skillScores) {
         radarChart.destroy();
     }
 
-    // Extract keys (labels) and values (data) from the JSON object
     const labels = Object.keys(skillScores);
     const values = Object.values(skillScores);
+
+    // Our new Japandi / Westworld color palette
+    const sageGreen = 'rgba(122, 139, 125, 1)';
+    const sageGreenTranslucent = 'rgba(122, 139, 125, 0.25)';
+    const mutedTaupe = '#95938B';
+    const gridColor = 'rgba(149, 147, 139, 0.15)'; // Very faint taupe for the web lines
 
     radarChart = new Chart(ctx, {
         type: 'radar',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Skill Proficiency (out of 10)',
+                label: 'Skill Proficiency',
                 data: values,
-                backgroundColor: 'rgba(54, 162, 235, 0.3)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2
+                backgroundColor: sageGreenTranslucent,
+                borderColor: sageGreen,
+                pointBackgroundColor: sageGreen,
+                pointBorderColor: '#161615', // Matches the dark background
+                pointHoverBackgroundColor: '#EAE6D7', // Linen highlight on hover
+                pointHoverBorderColor: sageGreen,
+                borderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6
             }]
         },
         options: {
+            plugins: {
+                legend: {
+                    display: false // Hides the top label for a cleaner, minimalist look
+                }
+            },
             scales: {
                 r: {
-                    angleLines: { display: true },
-                    suggestedMin: 0,
-                    suggestedMax: 10 
+                    angleLines: { 
+                        display: true,
+                        color: gridColor 
+                    },
+                    grid: {
+                        color: gridColor
+                    },
+                    pointLabels: {
+                        color: mutedTaupe, // The text color for the skill names around the chart
+                        font: {
+                            family: "'Space Grotesk', sans-serif",
+                            size: 11,
+                            letterSpacing: 1
+                        }
+                    },
+                    ticks: {
+                        display: false, // Hides the 0-10 numbers inside the chart for a cleaner look
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
                 }
             }
         }
