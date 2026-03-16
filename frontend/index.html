@@ -7,64 +7,106 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>A.R.I.A</h1>
-    <p>Automated Resume Intelligence & Application</p>
-
-    <form id="jobForm">
-      <div class="form-group">
-        <label for="resume">1. Upload Resume (PDF)</label>
-        <input type="file" id="resume" accept=".pdf" required>
+  <div class="scene">
+    <div class="book" id="book">
+      
+      <div class="page" id="page-1" style="z-index: 4;">
+        <div class="page-content">
+          <h1>K.H.O.O.</h1>
+          <p class="subtitle">Knowledge Heuristic & Opportunity Optimizer</p>
+          
+          <form id="jobForm">
+            <div class="form-group">
+              <label for="resume">1. Upload Resume (PDF)</label>
+              <input type="file" id="resume" accept=".pdf" required>
+            </div>
+  
+            <div class="form-group">
+              <label>2. Provide Job Details</label>
+              <div class="toggle-container">
+                <input type="radio" id="mode-url" name="input-mode" value="url" checked>
+                <label for="mode-url" class="toggle-btn">Link URLs</label>
+                <input type="radio" id="mode-text" name="input-mode" value="text">
+                <label for="mode-text" class="toggle-btn">Paste Text</label>
+              </div>
+              <div id="url-inputs">
+                <input type="url" id="url1" placeholder="Job URL 1" required>
+                <input type="url" id="url2" placeholder="Job URL 2 (Optional)">
+                <input type="url" id="url3" placeholder="Job URL 3 (Optional)">
+              </div>
+              <div id="text-inputs" class="hidden">
+                <textarea id="job-text" placeholder="Paste the full job description here..." rows="4"></textarea>
+              </div>
+            </div>
+  
+            <div class="action-grid">
+              <button type="submit" id="submitBtn">Evaluate</button>
+              <button id="analyze-btn" type="button">Analyze DNA</button>
+              <button id="enhance-btn" type="button">Enhance</button>
+            </div>
+          </form>
+          
+          <div id="loading" class="hidden"><p>Initializing K.H.O.O. engine...</p></div>
+          
+          <div class="page-nav right">
+            <button type="button" class="nav-btn" onclick="turnPage(1)">View Matches ➔</button>
+          </div>
+        </div>
       </div>
-
-      <div class="form-group">
-        <label>2. Paste Job URLs</label>
-        <input type="url" id="url1" placeholder="Job URL 1" required>
-        <input type="url" id="url2" placeholder="Job URL 2 (Optional)">
-        <input type="url" id="url3" placeholder="Job URL 3 (Optional)">
+  
+      <div class="page" id="page-2" style="z-index: 3;">
+        <div class="page-content">
+          <h2>Job Match Results</h2>
+          <div id="results" class="scrollable-content"></div>
+          
+          <div class="page-nav both">
+            <button type="button" class="nav-btn" onclick="turnBack(1)">⟵ Back</button>
+            <button type="button" class="nav-btn" onclick="turnPage(2)">DNA Dashboard ➔</button>
+          </div>
+        </div>
       </div>
-
-      <button type="submit" id="submitBtn">Evaluate Matches</button>
-      <button id="analyze-btn" type="button">📊 Analyze Resume</button>
-      <button id="enhance-btn" type="button">✨ Enhance Resume</button>
-    </form>
-
-    <div id="loading" class="hidden">
-      <p>Scraping jobs and consulting Gemini... This might take a minute.</p>
-    </div>
-
-    <div id="results"></div>
-
-    <div id="dashboard-container" class="panel" style="display: none;">
-      <h2 style="border-bottom: 2px solid #ddd; padding-bottom: 10px;">Resume DNA Dashboard</h2>
-      <p id="dash-summary" style="font-style: italic; color: #555; margin-bottom: 20px;"></p>
-
-      <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
-          <div style="flex: 1; min-width: 250px;">
-              <h3>Core Stats</h3>
+  
+      <div class="page" id="page-3" style="z-index: 2;">
+        <div class="page-content">
+          <h2>Resume DNA</h2>
+          <p id="dash-summary" style="font-style: italic;"></p>
+          
+          <div class="dashboard-layout scrollable-content">
+            <div class="stats">
               <p><strong>Experience:</strong> <span id="dash-exp"></span> Years</p>
-              <p><strong>Top Hard Skills:</strong> <span id="dash-hard"></span></p>
-              <p><strong>Top Soft Skills:</strong> <span id="dash-soft"></span></p>
-          </div>
-
-          <div style="flex: 1; min-width: 300px; max-width: 400px;">
+              <p><strong>Hard Skills:</strong> <span id="dash-hard"></span></p>
+              <p><strong>Soft Skills:</strong> <span id="dash-soft"></span></p>
+            </div>
+            <div class="chart-wrapper">
               <canvas id="skillsRadarChart"></canvas>
+            </div>
           </div>
+          
+          <div class="page-nav both">
+            <button type="button" class="nav-btn" onclick="turnBack(2)">⟵ Matches</button>
+            <button type="button" class="nav-btn" onclick="turnPage(3)">Enhancer ➔</button>
+          </div>
+        </div>
       </div>
+  
+      <div class="page" id="page-4" style="z-index: 1;">
+        <div class="page-content">
+          <h2>AI Enhanced Experience</h2>
+          <button id="copy-btn" title="Copy to Clipboard">📋 Copy Text</button>
+          <div id="enhanced-content" class="scrollable-content"></div>
+          
+          <div class="page-nav left">
+            <button type="button" class="nav-btn" onclick="turnBack(3)">⟵ DNA Dashboard</button>
+          </div>
+        </div>
+      </div>
+  
     </div>
-
-
-    <div id="enhanced-container" class="panel" style="display: none; position: relative;">
-      <h2 style="border-bottom: 2px solid var(--border-subtle); padding-bottom: 10px;">✨ AI Enhanced Experience</h2>
-      <p style="font-size: 0.9em;">Copy and paste these improved bullet points into your actual resume!</p>
-      
-      <button id="copy-btn" title="Copy to Clipboard">📋 Copy</button>
-      
-      <div id="enhanced-content"></div>
-    </div>
-  </div> 
-
+  </div>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
+
+
 </body>
 </html>
