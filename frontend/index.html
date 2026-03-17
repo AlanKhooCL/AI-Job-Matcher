@@ -11,16 +11,20 @@
     <div class="book" id="book">
       
       <div class="page" id="page-1" style="z-index: 4;">
-        <div class="page-content">
-          <h1>K.H.O.O</h1>
+      <div class="page-content">
+        
+        <div style="flex-shrink: 0;">
+          <h1>K.H.O.O.</h1>
           <p class="subtitle">Knowledge Heuristic & Opportunity Optimizer</p>
-          
+        </div>
+        
+        <div class="scrollable-content">
           <form id="jobForm">
             <div class="form-group">
               <label for="resume">1. Upload Resume (PDF)</label>
               <input type="file" id="resume" accept=".pdf" required>
             </div>
-  
+
             <div class="form-group">
               <label>2. Provide Job Details</label>
               <div class="toggle-container">
@@ -38,7 +42,7 @@
                 <textarea id="job-text" placeholder="Paste the full job description here..." rows="4"></textarea>
               </div>
             </div>
-  
+
             <div class="action-grid">
               <button type="submit" id="submitBtn">Evaluate</button>
               <button id="analyze-btn" type="button">Analyze DNA</button>
@@ -47,12 +51,14 @@
           </form>
           
           <div id="loading" class="hidden"><p>Initializing K.H.O.O. engine...</p></div>
-          
-          <div class="page-nav right">
-            <button type="button" class="nav-btn" onclick="turnPage(1)">View Matches ➔</button>
-          </div>
         </div>
+        
+        <div class="page-nav right" style="flex-shrink: 0;">
+          <button type="button" class="nav-btn" onclick="turnPage(1)">View Matches ➔</button>
+        </div>
+
       </div>
+    </div>
   
       <div class="page" id="page-2" style="z-index: 3;">
         <div class="page-content">
