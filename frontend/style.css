@@ -319,6 +319,7 @@ h2 { color: #E9EFEA; margin-bottom: 20px; border-bottom: 1px solid #1E3125; padd
   display: flex;
   padding-top: 20px;
   border-top: 1px solid #1E3125;
+  flex-shrink: 0;
 }
 .page-nav.right { justify-content: flex-end; }
 .page-nav.left { justify-content: flex-start; }
