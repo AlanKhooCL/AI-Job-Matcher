@@ -1,18 +1,18 @@
 /* --- 1. FONTS & THEME VARIABLES (LinkedIn Dark Green) --- */
 :root {
   /* Deep Corporate Green Palette */
-  --bg-base: #09120D;         /* Almost black forest green */
-  --surface: #121E16;         /* Elevated card background */
+  --bg-base: #09120D;         
+  --surface: #121E16;         
   --surface-hover: #1A2B20;   
-  --text-main: #E9EFEA;       /* Crisp off-white */
-  --text-muted: #8F9D94;      /* Professional grey-green */
-  --accent: #10B981;          /* Vibrant Emerald (The "LinkedIn Blue" equivalent) */
+  --text-main: #E9EFEA;       
+  --text-muted: #8F9D94;      
+  --accent: #10B981;          
   --accent-hover: #059669;
-  --border-subtle: #1E3125;   /* Distinct card borders */
+  --border-subtle: #1E3125;   
   --error: #CF6679;           
 }
 
-/* --- 2. GLOBAL RESET & BODY --- */
+/* --- 2. GLOBAL RESET & BODY (Background Image applied here) --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -20,59 +20,95 @@
 }
 
 body {
-  background-color: var(--bg-base);
+  /* The Dark Overlay + Background Image */
+  background: 
+    linear-gradient(rgba(9, 18, 13, 0.7), rgba(9, 18, 13, 0.8)), 
+    url('background.jpg'); /* MAKE SURE your image is named exactly this! */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  
   color: var(--text-main);
-  /* LinkedIn's exact system font stack for maximum corporate familiarity */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
+  min-height: 100vh;
+  overflow: hidden; /* Prevents the whole screen from scrolling, only the book pages scroll */
+}
+
+/* --- 3. 3D BOOK ENVIRONMENT --- */
+.scene {
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
-  padding: 40px 20px;
-  min-height: 100vh;
+  align-items: center;
+  perspective: 1800px; 
+  background-color: transparent; /* Allows the background image to show */
 }
 
-/* --- 3. TYPOGRAPHY --- */
-h1, h2, h3 {
-  font-weight: 600;
-  color: var(--text-main);
-  letter-spacing: normal;
-  text-transform: none; /* Removed the uppercase sci-fi look */
-}
-
-h1 {
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
-}
-
-p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-.container > p {
-  margin-bottom: 24px;
-}
-
-/* --- 4. LAYOUT & CONTAINERS (The Card Interface) --- */
-.container {
+.book {
+  position: relative;
   width: 100%;
-  max-width: 750px;
+  max-width: 650px;
+  height: 85vh; 
+  transform-style: preserve-3d;
 }
 
-/* LinkedIn style cards */
-.panel, form, .job-card {
-  background: var(--surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px; /* Classic corporate rounding */
-  padding: 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* Softer shadow */
+/* --- 4. THE PAGES (Glassmorphism applied here) --- */
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* Frosted Glass Effect */
+  background: rgba(18, 30, 22, 0.85); 
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px); /* For Safari support */
+  
+  border: 1px solid rgba(30, 49, 37, 0.8);
+  border-radius: 4px 16px 16px 4px; 
+  transform-origin: left center; 
+  transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+  box-shadow: inset 8px 0 20px rgba(0,0,0,0.6), 5px 5px 25px rgba(0,0,0,0.5); 
+  overflow: hidden;
 }
 
-/* --- 5. FORMS & INPUTS --- */
-.form-group {
+.page-content {
+  padding: 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.3s ease;
+}
+
+.page.flipped {
+  transform: rotateY(-180deg);
+}
+
+.page.flipped .page-content {
+  opacity: 0; 
+}
+
+/* --- 5. TYPOGRAPHY & SCROLLING --- */
+h1 { color: var(--accent); font-size: 2.2rem; margin-bottom: 0; letter-spacing: 1px; font-weight: 600;}
+.subtitle { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 15px; }
+h2 { color: var(--text-main); margin-bottom: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; font-weight: 600;}
+p { color: var(--text-muted); font-size: 0.95rem; }
+
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
   margin-bottom: 20px;
+  padding-right: 10px;
 }
+.scrollable-content::-webkit-scrollbar { width: 6px; }
+.scrollable-content::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 4px; }
+
+/* --- 6. FORMS & INPUTS --- */
+.form-group { margin-bottom: 20px; }
 
 label {
   display: block;
@@ -80,17 +116,14 @@ label {
   font-size: 0.9rem;
   margin-bottom: 8px;
   color: var(--text-main);
-  text-transform: none;
 }
 
-input[type="url"],
-input[type="file"],
-textarea {
+input[type="url"], input[type="file"], textarea {
   width: 100%;
   padding: 12px 16px;
-  background-color: var(--bg-base);
+  background-color: rgba(9, 18, 13, 0.6); /* Slightly transparent inputs */
   border: 1px solid var(--border-subtle);
-  border-radius: 4px; /* Sharper inputs */
+  border-radius: 4px;
   color: var(--text-main);
   font-family: inherit;
   margin-bottom: 12px;
@@ -100,7 +133,7 @@ textarea {
 input:focus, textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent); /* LinkedIn style focus ring */
+  box-shadow: 0 0 0 1px var(--accent);
 }
 
 input::file-selector-button {
@@ -114,12 +147,9 @@ input::file-selector-button {
   font-weight: 600;
   transition: background 0.2s;
 }
+input::file-selector-button:hover { background-color: rgba(16, 185, 129, 0.1); }
 
-input::file-selector-button:hover {
-  background-color: rgba(16, 185, 129, 0.1);
-}
-
-/* --- 6. BUTTONS --- */
+/* --- 7. BUTTONS & TOGGLES --- */
 button {
   width: 100%;
   background-color: var(--accent);
@@ -128,197 +158,63 @@ button {
   padding: 14px;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 24px; /* LinkedIn's pill-shaped primary actions */
+  border-radius: 24px; 
   cursor: pointer;
-  margin-bottom: 12px;
   transition: background-color 0.2s ease;
 }
-
-button:hover:not(:disabled) {
-  background-color: var(--accent-hover);
-}
-
-button:disabled {
-  background-color: var(--border-subtle);
-  color: var(--text-muted);
-  cursor: not-allowed;
-}
-
-/* Secondary Buttons */
-#analyze-btn, #enhance-btn {
-  background-color: transparent;
-  border: 1px solid var(--text-main);
-  color: var(--text-main);
-}
-
-#analyze-btn:hover:not(:disabled), 
-#enhance-btn:hover:not(:disabled) {
-  background-color: var(--surface-hover);
-  border-width: 2px;
-  padding: 13px; /* Compensate for thicker border */
-}
-
-/* --- 7. UTILITIES & TOGGLES --- */
-.hidden { display: none !important; }
-
-#loading {
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  margin: 20px 0;
-}
-
-/* Toggle Switch */
-.toggle-container {
-  display: flex;
-  background-color: var(--bg-base);
-  border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  margin-bottom: 16px;
-  overflow: hidden;
-}
-
-.toggle-container input[type="radio"] { display: none; }
-
-.toggle-btn {
-  flex: 1;
-  text-align: center;
-  padding: 10px;
-  margin: 0;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  border-right: 1px solid var(--border-subtle);
-}
-
-.toggle-btn:last-child { border-right: none; }
-
-.toggle-container input[type="radio"]:checked + .toggle-btn {
-  background-color: var(--surface);
-  color: var(--accent);
-  font-weight: 600;
-  border-bottom: 2px solid var(--accent);
-}
-
-/* --- 8. DASHBOARD OVERRIDES --- */
-#dashboard-container,
-#enhanced-container {
-  background-color: var(--surface) !important;
-  border: 1px solid var(--border-subtle) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-  border-radius: 8px !important;
-}
-
-#dashboard-container h2,
-#enhanced-container h2 {
-  border-bottom: 1px solid var(--border-subtle) !important;
-  padding-bottom: 16px !important;
-  margin-bottom: 16px !important;
-  font-size: 1.25rem;
-}
-
-/* --- 9. COPY BUTTON --- */
-#copy-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: auto;
-  padding: 6px 12px;
-  background-color: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-weight: 600;
-  border-radius: 4px;
-  margin: 0;
-}
-
-#copy-btn:hover {
-  background-color: var(--surface-hover);
-  color: var(--text-main);
-}
-/* --- 1. 3D BOOK ENVIRONMENT --- */
-.scene {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1800px; /* Gives the 3D depth effect */
-  background-color: #09120D; 
-}
-
-.book {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  height: 85vh; /* Standard book ratio */
-  transform-style: preserve-3d;
-}
-
-/* --- 2. THE PAGES --- */
-.page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #121E16;
-  border: 1px solid #1E3125;
-  border-radius: 4px 16px 16px 4px; /* Curved right edge like a book */
-  transform-origin: left center; /* Binds the page to the left spine */
-  transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-  box-shadow: inset 8px 0 20px rgba(0,0,0,0.6), 5px 5px 15px rgba(0,0,0,0.3); /* Spine shadow */
-  overflow: hidden;
-}
-
-.page-content {
-  padding: 40px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  transition: opacity 0.3s ease;
-}
-
-/* When the page turns, it rotates on the Y axis */
-.page.flipped {
-  transform: rotateY(-180deg);
-}
-
-/* Fades text out as it flips so it doesn't look backwards */
-.page.flipped .page-content {
-  opacity: 0; 
-}
-
-/* --- 3. INTERNAL PAGE LAYOUTS --- */
-.scrollable-content {
-  flex-grow: 1;
-  overflow-y: auto;
-  margin-bottom: 20px;
-  padding-right: 10px;
-}
-
-.scrollable-content::-webkit-scrollbar { width: 6px; }
-.scrollable-content::-webkit-scrollbar-thumb { background: #1E3125; border-radius: 4px; }
-
-h1 { color: #10B981; font-size: 2.2rem; margin-bottom: 0; letter-spacing: 1px; }
-.subtitle { color: #8F9D94; font-size: 0.85rem; margin-bottom: 30px; border-bottom: 1px solid #1E3125; padding-bottom: 15px; }
-h2 { color: #E9EFEA; margin-bottom: 20px; border-bottom: 1px solid #1E3125; padding-bottom: 10px; }
+button:hover:not(:disabled) { background-color: var(--accent-hover); }
+button:disabled { background-color: var(--border-subtle); color: var(--text-muted); cursor: not-allowed; }
 
 .action-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 15px;
 }
-.action-grid button[type="submit"] { grid-column: span 2; } /* Make evaluate button full width */
+.action-grid button[type="submit"] { grid-column: span 2; margin-bottom: 0;}
 
-/* Navigation Buttons fixed to bottom of pages */
+#analyze-btn, #enhance-btn {
+  background-color: transparent;
+  border: 1px solid var(--text-main);
+  color: var(--text-main);
+}
+#analyze-btn:hover:not(:disabled), #enhance-btn:hover:not(:disabled) {
+  background-color: var(--surface-hover);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Toggle Switch */
+.toggle-container {
+  display: flex;
+  background-color: rgba(9, 18, 13, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.toggle-container input[type="radio"] { display: none; }
+.toggle-btn {
+  flex: 1; text-align: center; padding: 10px; margin: 0;
+  cursor: pointer; font-size: 0.9rem; color: var(--text-muted);
+  font-weight: 500; border-right: 1px solid var(--border-subtle);
+}
+.toggle-btn:last-child { border-right: none; }
+.toggle-container input[type="radio"]:checked + .toggle-btn {
+  background-color: var(--surface); color: var(--accent); font-weight: 600;
+  border-bottom: 2px solid var(--accent);
+}
+
+/* --- 8. NAVIGATION & UTILITIES --- */
+.hidden { display: none !important; }
+
+#loading { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin: 15px 0; }
+
 .page-nav {
   margin-top: auto;
   display: flex;
-  padding-top: 20px;
-  border-top: 1px solid #1E3125;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-subtle);
   flex-shrink: 0;
 }
 .page-nav.right { justify-content: flex-end; }
@@ -326,12 +222,24 @@ h2 { color: #E9EFEA; margin-bottom: 20px; border-bottom: 1px solid #1E3125; padd
 .page-nav.both { justify-content: space-between; }
 
 .nav-btn {
-  background: transparent;
-  color: #10B981;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 8px 16px;
-  width: auto;
+  background: transparent; color: var(--accent); border: none;
+  font-weight: 600; cursor: pointer; padding: 8px 16px; width: auto;
 }
-.nav-btn:hover { background: #1A2B20; border-radius: 20px; }
+.nav-btn:hover { background: rgba(16, 185, 129, 0.1); border-radius: 20px; }
+
+#copy-btn {
+  position: absolute; top: 20px; right: 20px; width: auto;
+  padding: 6px 12px; background-color: transparent; border: 1px solid var(--border-subtle);
+  color: var(--text-muted); font-weight: 600; border-radius: 4px;
+}
+#copy-btn:hover { background-color: var(--surface-hover); color: var(--text-main); border-color: var(--accent); }
+
+/* --- 9. JOB RESULTS CARDS --- */
+.job-card {
+  background: rgba(9, 18, 13, 0.4);
+  border-left: 3px solid var(--accent);
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 0 8px 8px 0;
+}
+.job-card h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 8px; }
